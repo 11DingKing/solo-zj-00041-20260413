@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'mptt',
+    'django_filters',
 
 
     # My Apps.
@@ -152,4 +153,20 @@ DJOSER = {
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'noreply@example.com'
+
+STOCK_ALERT_RECIPIENTS = [
+    'admin@example.com',
+]
+
+ADMINS = [
+    ('Admin', 'admin@example.com'),
 ]

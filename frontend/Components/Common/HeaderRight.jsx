@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link'
 import CartIcon from '../UI/CartIcon';
+import StockAlertBadge from '../UI/StockAlertBadge';
 import { useDispatch, useSelector } from 'react-redux';
 import { getToken, removeToken } from 'Utils/token';
 import { useRouter } from 'next/router';
@@ -27,6 +28,7 @@ const HeaderRight = () => {
     return (
         <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">
             <CartIcon cartCounter={cartCounter} />
+            {accessToken && <StockAlertBadge />}
             {accessToken
                 ? (
                     <>

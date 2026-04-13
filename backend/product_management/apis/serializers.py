@@ -3,7 +3,9 @@ from product_management.models import (
     Product,
     ProductImage,
     ProductType,
-    ProductAttributes
+    ProductAttributes,
+    InventoryChangeLog,
+    StockAlert
 )
 from masters.models import (Attribute, AttributeValue, Category,)
 
@@ -35,11 +37,11 @@ class ProductImageSerializer(serializers.ModelSerializer):
         model = ProductImage
         fields = '__all__'
 
+
 class ProductTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductType
         fields = '__all__'
-
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -56,14 +58,32 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-        # depth = 5
 
 
-# OLD
-# class ProductSerializer(serializers.ModelSerializer):
-#     attributes = ProductAttributeSerializer(read_only=True, many=True)
+class InventoryChangeLogSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product.name', read_only=True)
+    created_by_username = serializers.CharField(source='created_by.username', read_only=True)
 
-#     class Meta:
-#         model = Product
-#         fields = '__all__'
-#         depth = 5
+    class Meta:
+        model = InventoryChangeLog
+        fields = '__all__'
+
+
+class StockAlertSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product.name', read_only=True)
+    product_slug = serializers.CharField(source='product.slug', read_only=True)
+    last_change_log_detail = InventoryChangeLogSerializer(source='last_change_log', read_only=True)
+
+    class Meta:
+        model = StockAlert
+        fields = '__all__'
+
+
+class StockAlertCountSerializer(serializers.Serializer):
+    pending_count = serializers.IntegerField()
+
+
+class ProductUpdateStockSerializer(serializers.Serializer):
+    quantity = serializers.IntegerField(min_value=1)
+    change_type = serializers.ChoiceField(choices=['increase', 'decrease'])
+    reason = serializers.CharField(max_length=255, required=False, allow_blank=True)

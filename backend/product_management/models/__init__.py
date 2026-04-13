@@ -4,6 +4,8 @@ from .product import (ProductType,
                       Product,
                       ProductSpecificationValue,
                       ProductImage)
+from .inventory import (InventoryChangeLog,
+                        StockAlert)
 
 
 __all__ = [
@@ -13,4 +15,6 @@ __all__ = [
     'Product',
     'ProductSpecificationValue',
     'ProductImage',
+    'InventoryChangeLog',
+    'StockAlert',
 ]
